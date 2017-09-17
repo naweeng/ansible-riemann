@@ -26,8 +26,6 @@
     src: "riemann.conf.j2"
     dest: /etc/riemann/riemann.config"
     mode: 0644
-    owner: "{{ansible_ssh_user}}"
-    group: "{{ansible_ssh_user}}"
 
 - name: Create log directory for riemann
   sudo: yes
@@ -35,8 +33,6 @@
     path: "{{riemann_log_dir}}"
     state: "directory"
     mode: 0755
-    owner: "{{ansible_ssh_user}}"
-    group: "{{ansible_ssh_user}}"
 
 - name: Create conf directory for riemann
   sudo: yes
@@ -44,16 +40,12 @@
     path: "{{riemann_conf_dir}}/conf.d"
     state: "directory"
     mode: 0755
-    owner: "{{ansible_ssh_user}}"
-    group: "{{ansible_ssh_user}}"
 
 - name: Create dashboard configuration file
   sudo: yes
   template:
     src: "dashboard.conf.j2"
     dest: "{{riemann_conf_dir}}/dashboard.conf"
-    owner: "{{ansible_ssh_user}}"
-    group: "{{ansible_ssh_user}}"
     mode: 0644
 
 - name: Create dashboard upstart script
@@ -61,7 +53,5 @@
   template:
     src: "dashboard-upstart.conf.j2"
     dest: /etc/init/riemann-dash.conf
-    owner: "{{ansible_ssh_user}}"
-    group: "{{ansible_ssh_user}}"
     mode: 0644
   notify: restart riemann-dash

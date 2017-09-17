@@ -2,7 +2,6 @@
 galaxy_info:
   author: Naween
   description: riemann
-  company: Indix Internet India Pvt Ltd.
   license: license (GPLv2, CC-BY, etc)
   min_ansible_version: 1.9.4
 
@@ -36,7 +35,7 @@ dependencies:
     monit_services:
       - name: riemann
         type: process
-        target: "{{riemann_pid_file}}"
+        target: "/run/riemann.pid"
         start: "/usr/bin/service riemann start"
         stop: "/usr/bin/service riemann stop"
 
