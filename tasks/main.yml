@@ -7,11 +7,13 @@
     path: "{{riemann_root}}"
 
 - name: Download Riemann release
+  sudo: yes
   get_url:
     url: "https://github.com/riemann/riemann/releases/download/{{ riemann_version }}/riemann_{{ riemann_version }}_all.deb"
     dest: "{{ riemann_download_dir }}/riemann-{{riemann_version}}_all.deb"
 
 - name: Install riemann
+  sudo: yes
   apt:
     deb: "{{ riemann_download_dir }}/riemann-{{riemann_version}}_all.deb"
 
