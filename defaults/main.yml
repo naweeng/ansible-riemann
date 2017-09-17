@@ -1,0 +1,16 @@
+---
+
+riemann_root:     /apps
+riemann_home_dir: /apps/riemann
+riemann_conf_dir: /apps/riemann
+riemann_log_dir:  /logs/riemann
+
+riemann_bind_address: "0.0.0.0"
+riemann_tcp_port: 5555 # 5554 with TLS
+riemann_udp_port: 5555
+riemann_ws_port:  5556
+riemann_repl_port: 5557
+riemann_sse_port: 5558
+
+riemann_download_dir: /apps
+riemann_version: 0.2.12

@@ -1,0 +1,15 @@
+; -*- mode: clojure; -*-
+; vim: filetype=clojure
+
+(logging/init {:file "{{ riemann_log_dir }}/riemann.log"})
+
+; Listen on the local interface over TCP (5555), UDP (5555), and websockets
+; (5556)
+(let [host "{{riemann_bind_address}}"]
+  (tcp-server {:host host :port {{riemann_tcp_port}}})
+  (udp-server {:host host :port {{riemann_udp_port}}})
+  (ws-server  {:host host :port {{riemann_ws_port}}}))
+
+(periodically-expire 10 {:keep-keys [:host :service, :state, :metric]})
+
+(include "{{riemann_conf_dir}}/conf.d")

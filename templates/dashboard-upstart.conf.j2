@@ -1,0 +1,27 @@
+description "riemann-dash"
+
+exec 2>&1
+
+start on runlevel [2345]
+stop on runlevel [!2345]
+
+respawn
+respawn limit 10 5
+
+console log
+
+setuid {{ansible_ssh_user}}
+setgid {{ansible_ssh_user}}
+
+script
+  exec {{rvm_root}}/gems/{{rvm_default_ruby_version}}/wrappers/riemann-dash {{riemann_conf_dir}}/dashboard.conf
+end script
+
+post-start script
+    PID=`status riemann-dash | egrep -oi '([0-9]+)$' | head -n1`
+    echo $PID > {{riemann_home_dir}}/riemann-dash.pid
+end script
+
+post-stop script
+    rm -f {{riemann_home_dir}}/riemann-dash.pid
+end script

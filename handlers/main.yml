@@ -1,0 +1,13 @@
+---
+
+- name: restart riemann
+  sudo: yes
+  service:
+    name: riemann
+    state: restarted
+
+- name: restart riemann-dash
+  sudo: yes
+  service:
+    name: riemann-dash
+    state: restarted

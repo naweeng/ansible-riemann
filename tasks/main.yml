@@ -1,0 +1,67 @@
+---
+
+- name: Create root directory for riemann
+  sudo: yes
+  file:
+    state: directory
+    path: "{{riemann_root}}"
+
+- name: Download Riemann release
+  get_url:
+    url: "https://github.com/riemann/riemann/releases/download/{{ riemann_version }}/riemann_{{ riemann_version }}_all.deb"
+    dest: "{{ riemann_download_dir }}/riemann-{{riemann_version}}_all.deb"
+
+- name: Install riemann
+  apt:
+    deb: "{{ riemann_download_dir }}/riemann-{{riemann_version}}_all.deb"
+
+- name: Install Riemann dashboard
+  sudo: yes
+  shell: "/usr/local/rvm/bin/rvm all do gem install riemann-dash"
+  changed_when: False
+
+- name: Config used to start riemann
+  sudo: yes
+  template:
+    src: "riemann.conf.j2"
+    dest: "{{riemann_root}}/riemann/etc/riemann.config"
+    mode: 0644
+    owner: "{{ansible_ssh_user}}"
+    group: "{{ansible_ssh_user}}"
+
+- name: Create log directory for riemann
+  sudo: yes
+  file:
+    path: "{{riemann_log_dir}}"
+    state: "directory"
+    mode: 0755
+    owner: "{{ansible_ssh_user}}"
+    group: "{{ansible_ssh_user}}"
+
+- name: Create conf directory for riemann
+  sudo: yes
+  file:
+    path: "{{riemann_conf_dir}}/conf.d"
+    state: "directory"
+    mode: 0755
+    owner: "{{ansible_ssh_user}}"
+    group: "{{ansible_ssh_user}}"
+
+- name: Create dashboard configuration file
+  sudo: yes
+  template:
+    src: "dashboard.conf.j2"
+    dest: "{{riemann_conf_dir}}/dashboard.conf"
+    owner: "{{ansible_ssh_user}}"
+    group: "{{ansible_ssh_user}}"
+    mode: 0644
+
+- name: Create dashboard upstart script
+  sudo: yes
+  template:
+    src: "dashboard-upstart.conf.j2"
+    dest: /etc/init/riemann-dash.conf
+    owner: "{{ansible_ssh_user}}"
+    group: "{{ansible_ssh_user}}"
+    mode: 0644
+  notify: restart riemann-dash
