@@ -24,6 +24,14 @@
   shell: "/usr/local/rvm/bin/rvm all do gem install riemann-dash"
   changed_when: False
 
+- name: Upload riemann_cond_dt plugin jar
+  copy:
+    src: riemann_cond_dt.jar
+    dest: /usr/lib/riemann_cond_dt.jar
+    owner: riemann
+    group: riemann
+    mode: 0755
+
 - name: Config used to start riemann
   sudo: yes
   template:
