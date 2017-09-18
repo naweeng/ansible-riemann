@@ -4,18 +4,20 @@
   sudo: yes
   file:
     state: directory
-    path: "{{riemann_root}}"
+    path: "{{ riemann_root }}"
+    owner: "{{ riemann_user }}"
+    group: "{{ riemann_user }}"
 
 - name: Download Riemann release
   sudo: yes
   get_url:
     url: "https://github.com/riemann/riemann/releases/download/{{ riemann_version }}/riemann_{{ riemann_version }}_all.deb"
-    dest: "{{ riemann_download_dir }}/riemann-{{riemann_version}}_all.deb"
+    dest: "{{ riemann_download_dir }}/riemann-{{ riemann_version }}_all.deb"
 
 - name: Install riemann
   sudo: yes
   apt:
-    deb: "{{ riemann_download_dir }}/riemann-{{riemann_version}}_all.deb"
+    deb: "{{ riemann_download_dir }}/riemann-{{ riemann_version }}_all.deb"
 
 - name: Install Riemann dashboard
   sudo: yes
@@ -26,28 +28,43 @@
   sudo: yes
   template:
     src: "riemann.conf.j2"
-    dest: /etc/riemann/riemann.config"
+    dest: /etc/riemann/riemann.config
+    owner: "{{ riemann_user }}"
+    group: "{{ riemann_user }}"
+    mode: 0644
+
+- name: Default config for riemann
+  sudo: yes
+  template:
+    src: "riemann_default.conf.j2"
+    dest: /etc/default/riemann
     mode: 0644
 
 - name: Create log directory for riemann
   sudo: yes
   file:
-    path: "{{riemann_log_dir}}"
+    path: "{{ riemann_log_dir }}"
     state: "directory"
+    owner: "{{ riemann_user }}"
+    group: "{{ riemann_user }}"
     mode: 0755
 
 - name: Create conf directory for riemann
   sudo: yes
   file:
-    path: "{{riemann_conf_dir}}/conf.d"
+    path: "{{ riemann_conf_dir }}/conf.d"
     state: "directory"
+    owner: "{{ riemann_user }}"
+    group: "{{ riemann_user }}"
     mode: 0755
 
 - name: Create dashboard configuration file
   sudo: yes
   template:
     src: "dashboard.conf.j2"
-    dest: "{{riemann_conf_dir}}/dashboard.conf"
+    dest: "{{ riemann_conf_dir }}/dashboard.conf"
+    owner: "{{ riemann_user }}"
+    group: "{{ riemann_user }}"
     mode: 0644
 
 - name: Create dashboard upstart script

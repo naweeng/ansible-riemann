@@ -10,8 +10,8 @@ respawn limit 10 5
 
 console log
 
-setuid {{ansible_ssh_user}}
-setgid {{ansible_ssh_user}}
+setuid {{ riemann_user }}
+setgid {{ riemann_user }}
 
 script
   exec {{rvm_root}}/gems/{{rvm_default_ruby_version}}/wrappers/riemann-dash {{riemann_conf_dir}}/dashboard.conf
