@@ -5,8 +5,6 @@
   file:
     state: directory
     path: "{{ riemann_root }}"
-    owner: "{{ riemann_user }}"
-    group: "{{ riemann_user }}"
 
 - name: Download Riemann release
   sudo: yes
@@ -18,6 +16,14 @@
   sudo: yes
   apt:
     deb: "{{ riemann_download_dir }}/riemann-{{ riemann_version }}_all.deb"
+
+- name: Change ownership for riemann root dir
+  sudo: yes
+  file:
+    state: directory
+    path: "{{ riemann_root }}"
+    owner: "{{ riemann_user }}"
+    group: "{{ riemann_user }}"
 
 - name: Install Riemann dashboard
   sudo: yes
