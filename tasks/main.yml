@@ -28,8 +28,8 @@
   copy:
     src: riemann_cond_dt.jar
     dest: /usr/lib/riemann_cond_dt.jar
-    owner: riemann
-    group: riemann
+    owner: "{{ riemann_user }}"
+    group: "{{ riemann_user }}"
     mode: 0755
 
 - name: Config used to start riemann
