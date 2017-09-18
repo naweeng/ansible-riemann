@@ -14,5 +14,5 @@ riemann_sse_port: 5558
 
 riemann_download_dir: /apps
 riemann_version: 0.2.12
-riemnn_user: riemann
+riemann_user: riemann
 riemann_extra_java_options: "-Xmx256m -Xms256m -XX:+UseConcMarkSweepGC -XX:+CMSParallelRemarkEnabled -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/logs/heapdumps/"
