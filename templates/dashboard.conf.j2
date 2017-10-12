@@ -1,2 +1,4 @@
 set :port, 8000      # HTTP server on port 8000
 set :bind, "0.0.0.0" # Bind to a different interface
+
+config.store[:ws_config] = "{{riemann_home_dir}}/config/config.json"
