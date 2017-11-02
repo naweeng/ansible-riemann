@@ -31,6 +31,7 @@
   changed_when: False
 
 - name: Upload riemann_cond_dt plugin jar
+  sudo: yes
   copy:
     src: riemann_cond_dt.jar
     dest: /usr/lib/riemann_cond_dt.jar
