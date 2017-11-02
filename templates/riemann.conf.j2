@@ -3,6 +3,10 @@
 
 (logging/init {:file "{{ riemann_log_dir }}/riemann.log"})
 
+(load-plugins)
+
+(require '[riemann-cond-dt.core :as cd])
+
 ; Listen on the local interface over TCP (5555), UDP (5555), and websockets
 ; (5556)
 (let [host "{{riemann_bind_address}}"]
